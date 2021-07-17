@@ -36,9 +36,9 @@ app.post('/', function (req, res) {
 		res.status(400).end();
 		return;
 	}
-	add_URL(url);
-	console.log(memory);
-	return res.send('hi2_post');
+	const record = add_URL(url);
+	const message = `Here is your short link: <a href="http://localhost:8887/${record.alias}">http://localhost:8887/${record.alias}</a>`;
+	return res.send(message);
 });
 
 const shortenURL = (url) => {
@@ -46,7 +46,9 @@ const shortenURL = (url) => {
 };
 
 const add_URL = (url) => {
-	memory.push({ url, alias: shortenURL(url) });
+	const data = { url, alias: shortenURL(url) };
+	memory.push(data);
+	return data;
 };
 
 const get_URL = (alias) => {
