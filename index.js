@@ -11,10 +11,18 @@ app.listen(PORT, () => {
 });
 
 app.get('/', function (req, res) {
-	let { url } = get_URL(req.query.alias);
+	const formPage = `<form action="/" method="post" enctype="application/x-www-form-urlencoded" style="padding: 20px; background: #fff;">
+	<input name="url" placeholder="" />
+	<button type="submit">Create short URL</button>
+</form>`;
+	res.send(formPage);
+});
+
+app.get('/:alias?', function (req, res) {
+	let url = get_URL(req.params.alias);
 	console.log(url);
 	if (url) {
-		return res.send(url);
+		return res.redirect(url.url);
 	} else {
 		res.status(404).end();
 		return;
@@ -48,4 +56,4 @@ const get_URL = (alias) => {
 };
 
 let id = 1;
-const memory = [{ url: 'one', alias: shortenURL() }];
+const memory = [{ url: 'https://expressjs.com', alias: shortenURL() }];
